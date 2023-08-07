@@ -4,7 +4,16 @@ const taskInput = document.querySelector('#taskInput');
 const tasksList = document.querySelector('#tasksList');
 const emptyList = document.querySelector('#emptyList');
 
-form.addEventListener('submit', (e)=>{
+// Добавление задачи
+
+form.addEventListener('submit', addTask);
+
+// Удаление задачи
+
+tasksList.addEventListener('click', deleteTask)
+
+
+function addTask(e) {
     e.preventDefault()
 
     const taskText = taskInput.value
@@ -31,7 +40,16 @@ form.addEventListener('submit', (e)=>{
     if(tasksList.children.length > 1){
         emptyList.classList.add('none')
     }
+}
 
-})
+function deleteTask(e){
+    // Проверяем, что клик был по кнопке "удалить задачу"
+    if(e.target.dataset.action === 'delete'){
+        const parentNode = e.target.closest('.list-group-item');
+        parentNode.remove();
+    }
 
-
+    if(tasksList.children.length === 1){
+        emptyList.classList.remove('none')
+    }
+}
