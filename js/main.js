@@ -4,6 +4,8 @@ const taskInput = document.querySelector('#taskInput');
 const tasksList = document.querySelector('#tasksList');
 const emptyList = document.querySelector('#emptyList');
 
+let tasks = [];
+
 // Добавление задачи
 
 form.addEventListener('submit', addTask);
@@ -20,11 +22,26 @@ tasksList.addEventListener('click', doneTask)
 function addTask(e) {
     e.preventDefault()
 
-    const taskText = taskInput.value
+    const taskText = taskInput.value;
+
+    // Описываем задачу в виде объекта
+    const newTask = {
+        id: Date.now(),
+        text: taskText,
+        done: true
+    }
+
+    // Добавляем задачу в массив с задачами
+    tasks.push(newTask)
+
+    console.log(tasks)
+
+    // Формируем CSS класс
+    const cssClass = newTask.done ? "task-title task-title--done" : "task-title"
 
     const taskHTML = `
-        <li class="list-group-item d-flex justify-content-between task-item">
-            <span class="task-title">${taskText}</span>
+        <li id="${newTask.id}" class="list-group-item d-flex justify-content-between task-item">
+            <span class="${cssClass}">${newTask.text}</span>
             <div class="task-item__buttons">
                <button type="button" data-action="done" class="btn-action">
                     <img src="./img/tick.svg" alt="Done" width="18" height="18">
@@ -51,11 +68,13 @@ function deleteTask(e){
     if(e.target.dataset.action === 'delete'){
         const parentNode = e.target.closest('.list-group-item');
         parentNode.remove();
+
+        if(tasksList.children.length === 1){
+            emptyList.classList.remove('none')
+        }
     }
 
-    if(tasksList.children.length === 1){
-        emptyList.classList.remove('none')
-    }
+
 }
 
 function doneTask(e){
