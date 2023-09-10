@@ -28,7 +28,7 @@ function addTask(e) {
     const newTask = {
         id: Date.now(),
         text: taskText,
-        done: true
+        done: false
     }
 
     // Добавляем задачу в массив с задачами
@@ -73,8 +73,6 @@ function deleteTask(e){
             emptyList.classList.remove('none')
         }
     }
-
-
 }
 
 function doneTask(e){
@@ -83,5 +81,6 @@ function doneTask(e){
         const parentNode = e.target.closest('.list-group-item');
         const taskTitle = parentNode.querySelector('.task-title');
         taskTitle.classList.toggle('task-title--done');
+        console.log(tasks)
     }
 }
